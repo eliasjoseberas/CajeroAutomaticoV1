@@ -10,20 +10,37 @@ namespace CajeroAutomatico
     {
         static void Main(string[] args)
         {
-            string nomCliente = "Carlos Sanchez";
-            string numCuenta = "9609904351";
+            string nomCliente;
+            string numCuenta;
             string tipoCuenta = "Ahorro";
-            decimal saldoDisponible = 32850;
+            string estadoCuenta;
+            decimal saldoDisponible;
             decimal montoOperación;
             int opcion;
-            
+
+            Console.WriteLine("Ingrese su nombre");
+            nomCliente = Console.ReadLine();
+
+            Console.WriteLine("Ingrese su numero de cuenta");
+            numCuenta = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el estado de la cuenta");
+            estadoCuenta = Console.ReadLine();
+
+            Console.WriteLine("Ingrese el saldo disponible en la cuenta");
+            while (!decimal.TryParse(Console.ReadLine(), out saldoDisponible))
+            {
+                Console.WriteLine("Ingresa un valor valido");
+            }
 
             do
             {
+
                 Console.WriteLine("==========================================");
                 Console.WriteLine($"Bienvenido {nomCliente}");
                 Console.WriteLine($"Cuenta: {numCuenta}");
                 Console.WriteLine($"Tipo de cuenta: {tipoCuenta}");
+                Console.WriteLine($"Estado de cuenta: {estadoCuenta}");
                 Console.WriteLine($"Saldo disponible: {saldoDisponible}");
                 Console.WriteLine("==========================================");
 
@@ -40,7 +57,12 @@ namespace CajeroAutomatico
 
                 Console.WriteLine("");
 
-                opcion = int.Parse(Console.ReadLine());
+                while (!int.TryParse(Console.ReadLine(), out opcion))
+                {
+                    Console.WriteLine("Ingrese un valor valido"); 
+                }
+;
+
 
                 switch (opcion)
                 {
@@ -57,6 +79,12 @@ namespace CajeroAutomatico
                         break;
 
                     case 2:
+                        if (estadoCuenta == "inactiva" || estadoCuenta == "Inactiva")
+                        {
+                            Console.WriteLine("Su cuenta está inactiva, no puede depositar");
+                            break;
+                        }
+
                         Console.WriteLine("Ingrese el monto que desea depositar");
                         while (!decimal.TryParse(Console.ReadLine(), out montoOperación))
                         {
@@ -74,6 +102,12 @@ namespace CajeroAutomatico
                         break;
 
                     case 3:
+                        if (estadoCuenta == "inactiva" || estadoCuenta == "Inactiva")
+                        {
+                            Console.WriteLine("Su cuenta está inactiva, no puede retirar");
+                            break;
+                        }
+
                         Console.WriteLine("Ingrese el monto que desea retirar");
 
                         while (!decimal.TryParse(Console.ReadLine(), out montoOperación))
