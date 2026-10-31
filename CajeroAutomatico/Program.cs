@@ -47,35 +47,21 @@ namespace CajeroAutomatico
                 Console.WriteLine("");
                 Console.WriteLine("");
 
-                Console.WriteLine("Elija la opcion acorde a lo que desea realizar:");
-                Console.WriteLine("===============================================");
-                Console.WriteLine("No. 1 - Consultar su saldo");
-                Console.WriteLine("    2 - Realizar un deposito");
-                Console.WriteLine("    3 - Realizar un retiro de efectivo");
-                Console.WriteLine("    4 - Salir");
-                Console.WriteLine("===============================================");
+                MostrarMenu();
 
                 Console.WriteLine("");
 
                 while (!int.TryParse(Console.ReadLine(), out opcion))
                 {
-                    Console.WriteLine("Ingrese un valor valido"); 
+                    Console.WriteLine("Ingrese un valor valido");
                 }
-;
+                ;
 
 
                 switch (opcion)
                 {
                     case 1:
-                        Console.WriteLine("");
-
-                        Console.WriteLine($"Cuenta: {numCuenta}");
-                        Console.WriteLine($"Tipo de cuenta: {tipoCuenta}");
-                        Console.WriteLine($"Saldo disponible: {saldoDisponible}");
-                        Console.WriteLine("Gracias por preferirnos");
-
-                        Console.WriteLine("");
-
+                        ConsultarSaldo(numCuenta, tipoCuenta, saldoDisponible);
                         break;
 
                     case 2:
@@ -85,20 +71,7 @@ namespace CajeroAutomatico
                             break;
                         }
 
-                        Console.WriteLine("Ingrese el monto que desea depositar");
-                        while (!decimal.TryParse(Console.ReadLine(), out montoOperación))
-                        {
-                            Console.WriteLine("Ingresar un valor valido");
-                        }
-                        if (montoOperación == 0)
-                        {
-                            Console.WriteLine("CANTIDAD INVALIDA, SALDO SIN CAMBIOS");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Su monto depositado es de {montoOperación}");
-                            saldoDisponible = (saldoDisponible + montoOperación);
-                        }
+                        montoOperación = Deposito(ref saldoDisponible);
                         break;
 
                     case 3:
@@ -108,21 +81,7 @@ namespace CajeroAutomatico
                             break;
                         }
 
-                        Console.WriteLine("Ingrese el monto que desea retirar");
-
-                        while (!decimal.TryParse(Console.ReadLine(), out montoOperación))
-                        {
-                            Console.WriteLine("Ingresar un valor valido");
-                        }
-                        if (montoOperación >= saldoDisponible)
-                        {
-                            Console.WriteLine("Saldo insuficiente");
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Su monto retirado es de {montoOperación}");
-                            saldoDisponible = (saldoDisponible - montoOperación);
-                        }
+                        montoOperación = Retiro(ref saldoDisponible);
                         break;
 
                     case 4:
@@ -139,5 +98,73 @@ namespace CajeroAutomatico
 
 
         }
+
+        private static void MostrarMenu()
+        {
+            Console.WriteLine("Elija la opcion acorde a lo que desea realizar:");
+            Console.WriteLine("===============================================");
+            Console.WriteLine("No. 1 - Consultar su saldo");
+            Console.WriteLine("    2 - Realizar un deposito");
+            Console.WriteLine("    3 - Realizar un retiro de efectivo");
+            Console.WriteLine("    4 - Salir");
+            Console.WriteLine("===============================================");
+        }
+
+        private static void ConsultarSaldo(string numCuenta, string tipoCuenta, decimal saldoDisponible)
+        {
+            Console.WriteLine("");
+
+            Console.WriteLine($"Cuenta: {numCuenta}");
+            Console.WriteLine($"Tipo de cuenta: {tipoCuenta}");
+            Console.WriteLine($"Saldo disponible: {saldoDisponible}");
+            Console.WriteLine("Gracias por preferirnos");
+
+            Console.WriteLine("");
+        }
+
+        private static decimal Deposito(ref decimal saldoDisponible)
+        {
+            decimal montoOperación;
+            Console.WriteLine("Ingrese el monto que desea depositar");
+            while (!decimal.TryParse(Console.ReadLine(), out montoOperación))
+            {
+                Console.WriteLine("Ingresar un valor valido");
+            }
+            if (montoOperación == 0)
+            {
+                Console.WriteLine("CANTIDAD INVALIDA, SALDO SIN CAMBIOS");
+            }
+            else
+            {
+                Console.WriteLine($"Su monto depositado es de {montoOperación}");
+                saldoDisponible = (saldoDisponible + montoOperación);
+            }
+
+            return montoOperación;
+        }
+
+
+        private static decimal Retiro(ref decimal saldoDisponible)
+        {
+            decimal montoOperación;
+            Console.WriteLine("Ingrese el monto que desea retirar");
+
+            while (!decimal.TryParse(Console.ReadLine(), out montoOperación))
+            {
+                Console.WriteLine("Ingresar un valor valido");
+            }
+            if (montoOperación >= saldoDisponible)
+            {
+                Console.WriteLine("Saldo insuficiente");
+            }
+            else
+            {
+                Console.WriteLine($"Su monto retirado es de {montoOperación}");
+                saldoDisponible = (saldoDisponible - montoOperación);
+            }
+
+            return montoOperación;
+        }
+
     }
 }
